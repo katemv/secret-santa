@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background: rgb(5, 18, 5)
+  }
+  body {
+    @apply min-h-screen font-sans;
+  }
+}
