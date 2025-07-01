@@ -16,19 +16,19 @@ const AssignmentSchema = new Schema<IAssignment>({
     },
     giverId: {
         type: Schema.Types.ObjectId,
-        ref: "Participant",
+        ref: "Member",
         required: true,
     },
     receiverId: {
         type: Schema.Types.ObjectId,
-        ref: "Participant",
+        ref: "Member",
         required: true,
     },
 }, {
     timestamps: true,
 });
 
-// Ensure each participant can only give to one person per group
+// Ensure each member can only give to one person per group
 AssignmentSchema.index({ groupId: 1, giverId: 1 }, { unique: true });
 
 export default mongoose.model<IAssignment>("Assignment", AssignmentSchema); 

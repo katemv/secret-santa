@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export interface IParticipant extends Document {
+export interface IMember extends Document {
   name: string
   email: string
   giftPreferences: string
@@ -10,7 +10,7 @@ export interface IParticipant extends Document {
   updatedAt: Date
 }
 
-const ParticipantSchema = new Schema<IParticipant>({
+const MemberSchema = new Schema<IMember>({
     name: {
         type: String,
         required: true,
@@ -41,4 +41,4 @@ const ParticipantSchema = new Schema<IParticipant>({
     timestamps: true,
 });
 
-export default mongoose.model<IParticipant>("Participant", ParticipantSchema); 
+export default mongoose.model<IMember>("Member", MemberSchema); 

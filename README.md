@@ -6,10 +6,10 @@ A cozy, festive Secret Santa web application built with React, TypeScript, Expre
 
 ### 🎁 Core Features (MVP)
 - **Group Creation**: Create Secret Santa groups with custom budgets and exchange dates
-- **Easy Joining**: Participants join with a simple group code
+- **Easy Joining**: Members join with a simple group code
 - **Smart Assignment**: Automatic Secret Santa assignment algorithm (no self-assignments)
-- **Gift Preferences**: Participants can share detailed gift preferences
-- **Reveal System**: Secure, unique links for each participant to see their assignment
+- **Gift Preferences**: Members can share detailed gift preferences
+- **Reveal System**: Secure, unique links for each member to see their assignment
 - **Responsive Design**: Beautiful on desktop and mobile devices
 
 ### 🔮 Coming Soon
@@ -135,10 +135,10 @@ naughty-and-nice/
 - `GET /api/groups/:id` - Get group by ID
 - `GET /api/groups/code/:code` - Get group by invitation code
 
-### Participants
-- `POST /api/participants` - Join a group
-- `GET /api/participants/group/:groupId` - List participants in a group
-- `GET /api/participants/:uniqueId` - Get participant by unique ID
+### Members
+- `POST /api/members` - Join a group
+- `GET /api/members/group/:groupId` - List members in a group
+- `GET /api/members/:uniqueId` - Get member by unique ID
 
 ### Assignments
 - `POST /api/assignments/generate/:groupId` - Generate Secret Santa assignments
@@ -177,11 +177,11 @@ NODE_ENV=development
 ### For Group Creators
 1. Click "Create Group" on the homepage
 2. Fill in group details (name, description, date, budget)
-3. Share the generated group code with participants
-4. Monitor participants joining in the group dashboard
+3. Share the generated group code with members
+4. Monitor members joining in the group dashboard
 5. Generate Secret Santa assignments when everyone has joined
 
-### For Participants
+### For Members
 1. Click "Join Group" on the homepage
 2. Enter the group code provided by the organizer
 3. Fill in your details and gift preferences

@@ -4,9 +4,11 @@
 
 @layer base {
   html {
-    background: rgb(5, 18, 5)
+    background: #e7342a;
   }
+
   body {
     @apply min-h-screen font-sans;
+    background: #ffffff;
   }
 }

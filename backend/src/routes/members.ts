@@ -1,11 +1,11 @@
 import express, { Request, Response } from "express";
 import { nanoid } from "nanoid";
-import Participant from "../models/Participant";
+import Member from "../models/Member";
 import Group from "../models/Group";
 
 const router = express.Router();
 
-// Join a group (create participant)
+// Join a group (create member)
 router.post("/", async (req: Request, res: Response) => {
     try {
         const { name, email, giftPreferences, groupCode } = req.body;
@@ -16,20 +16,20 @@ router.post("/", async (req: Request, res: Response) => {
             return res.status(404).json({ message: "Group not found" });
         }
 
-        // Check if participant already exists in this group
-        const existingParticipant = await Participant.findOne({
+        // Check if member already exists in this group
+        const existingMember = await Member.findOne({
             email: email.toLowerCase(),
             groupId: group._id,
         });
 
-        if (existingParticipant) {
-            return res.status(400).json({ message: "Participant already joined this group" });
+        if (existingMember) {
+            return res.status(400).json({ message: "Member already joined this group" });
         }
 
-        // Generate unique ID for the participant
+        // Generate unique ID for the member
         const uniqueId = nanoid(12);
 
-        const participant = new Participant({
+        const member = new Member({
             name,
             email: email.toLowerCase(),
             giftPreferences,
@@ -37,42 +37,42 @@ router.post("/", async (req: Request, res: Response) => {
             uniqueId,
         });
 
-        await participant.save();
-        res.status(201).json(participant);
+        await member.save();
+        res.status(201).json(member);
     } catch (error) {
-        console.error("Error creating participant:", error);
+        console.error("Error creating member:", error);
         res.status(500).json({ message: "Failed to join group" });
     }
 });
 
-// Get participants by group ID
+// Get members by group ID
 router.get("/group/:groupId", async (req: Request, res: Response) => {
     try {
         const { groupId } = req.params;
-        const participants = await Participant.find({ groupId }).select("-uniqueId");
+        const members = await Member.find({ groupId }).select("-uniqueId");
 
-        res.json(participants);
+        res.json(members);
     } catch (error) {
-        console.error("Error fetching participants:", error);
-        res.status(500).json({ message: "Failed to fetch participants" });
+        console.error("Error fetching members:", error);
+        res.status(500).json({ message: "Failed to fetch members" });
     }
 });
 
-// Get participant by unique ID
+// Get member by unique ID
 router.get("/:uniqueId", async (req: Request, res: Response) => {
     try {
         const { uniqueId } = req.params;
-        const participant = await Participant.findOne({ uniqueId })
+        const member = await Member.findOne({ uniqueId })
             .populate("groupId", "name description exchangeDate budget");
 
-        if (!participant) {
-            return res.status(404).json({ message: "Participant not found" });
+        if (!member) {
+            return res.status(404).json({ message: "Member not found" });
         }
 
-        res.json(participant);
+        res.json(member);
     } catch (error) {
-        console.error("Error fetching participant:", error);
-        res.status(500).json({ message: "Failed to fetch participant" });
+        console.error("Error fetching member:", error);
+        res.status(500).json({ message: "Failed to fetch member" });
     }
 });
 

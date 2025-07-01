@@ -1,18 +1,37 @@
 import Snow from "../components/animations/Snow";
+import { Button } from "../components/Button";
+import Logo from "../components/Logo";
 
 const Home = () => {
     return (
-        <div className={"bg-[#e7342a] w-full h-full relative"}>
+        <div className={"bg-christmas-600 w-full h-full relative"}>
             <Snow />
             <div className='min-h-screen w-full flex items-center justify-center'>
-                <p className="max-w-2xl mx-auto text-[50px] font-black text-white font-fields uppercase leading-none relative z-30">
-                    <span className={"text-[75px]"}>N</span>aughty<br/>
-                    <span className={"-top-[25px] relative left-[80px]"}>
-                    & <span className={"text-[75px] relative top-[16px]"}>N</span>ice
-                    </span>
-                </p>
+                <div className='max-w-2xl mx-auto text-center relative z-30'>
+                    <Logo />
+                    
+                    <p className='text-white text-lg mb-12 font-medium leading-relaxed'>
+                        {"Organize the perfect Secret Santa gift exchange! Create groups, add members, and let our system randomly assign gift recipients. Make your holiday celebrations magical and stress-free."}
+                    </p>
+                    
+                    <div className='flex gap-6 justify-center'>
+                        <Button 
+                            variant={"filled"}
+                            size={"lg"}
+                            to={"/create"}
+                        >
+                            {"Create a Group"}
+                        </Button>
+                        <Button 
+                            variant={"outline"}
+                            size={"lg"}
+                            to={"/join"}
+                        >
+                            {"Join a Group"}
+                        </Button>
+                    </div>
+                </div>
             </div>
-      
         </div>
     );
 };

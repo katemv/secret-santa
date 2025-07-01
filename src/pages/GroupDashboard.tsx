@@ -12,7 +12,7 @@ interface Group {
   code: string
 }
 
-interface Participant {
+interface Member {
   _id: string
   name: string
   email: string
@@ -25,7 +25,7 @@ const GroupDashboard = () => {
     const { groupCode, isCreator } = location.state || {};
   
     const [group, setGroup] = useState<Group | null>(null);
-    const [participants, setParticipants] = useState<Participant[]>([]);
+    const [members, setMembers] = useState<Member[]>([]);
     const [assignmentStatus, setAssignmentStatus] = useState({
         assignmentsGenerated: false,
         assignmentCount: 0,
@@ -38,7 +38,7 @@ const GroupDashboard = () => {
 
     useEffect(() => {
         fetchGroupData();
-        fetchParticipants();
+        fetchMembers();
         fetchAssignmentStatus();
     }, [groupId]);
 
@@ -51,12 +51,12 @@ const GroupDashboard = () => {
         }
     };
 
-    const fetchParticipants = async () => {
+    const fetchMembers = async () => {
         try {
-            const response = await axios.get(`/api/participants/group/${groupId}`);
-            setParticipants(response.data);
+            const response = await axios.get(`/api/members/group/${groupId}`);
+            setMembers(response.data);
         } catch (err) {
-            console.error("Failed to load participants");
+            console.error("Failed to load members");
         }
     };
 
@@ -153,29 +153,29 @@ const GroupDashboard = () => {
                     </div>
                     <div className={"flex items-center gap-2 text-forest-600"}>
                         <Users size={18} />
-                        <span>{participants.length + " participant" + (participants.length !== 1 ? "s" : "")}</span>
+                        <span>{members.length + " member" + (members.length !== 1 ? "s" : "")}</span>
                     </div>
                 </div>
             </div>
 
-            {/* Participants */}
+            {/* Members */}
             <div className={"cozy-card"}>
-                <h2 className={"text-2xl font-bold text-forest-800 mb-4"}>{"Participants"}</h2>
-                {participants.length === 0 ? (
+                <h2 className={"text-2xl font-bold text-forest-800 mb-4"}>{"Members"}</h2>
+                {members.length === 0 ? (
                     <div className={"text-center py-8"}>
                         <div className={"text-4xl mb-4"}>👥</div>
-                        <p className={"text-forest-600"}>{"No participants yet. Share the group code to get started!"}</p>
+                        <p className={"text-forest-600"}>{"No members yet. Share the group code to get started!"}</p>
                     </div>
                 ) : (
                     <div className={"grid gap-3"}>
-                        {participants.map((participant) => (
-                            <div key={participant._id} className={"flex items-center justify-between p-3 bg-forest-50 rounded-lg"}>
+                        {members.map((member) => (
+                            <div key={member._id} className={"flex items-center justify-between p-3 bg-forest-50 rounded-lg"}>
                                 <div>
-                                    <div className={"font-medium text-forest-800"}>{participant.name}</div>
-                                    <div className={"text-sm text-forest-600"}>{participant.email}</div>
+                                    <div className={"font-medium text-forest-800"}>{member.name}</div>
+                                    <div className={"text-sm text-forest-600"}>{member.email}</div>
                                 </div>
                                 <div className={"text-xs text-forest-500"}>
-                                    {"Joined " + new Date(participant.createdAt).toLocaleDateString()}
+                                    {"Joined " + new Date(member.createdAt).toLocaleDateString()}
                                 </div>
                             </div>
                         ))}
@@ -202,25 +202,25 @@ const GroupDashboard = () => {
                                 <span className={"font-medium"}>{"Assignments Generated!"}</span>
                             </div>
                             <p className={"text-sm"}>
-                                {"Secret Santa assignments have been created for all " + assignmentStatus.assignmentCount + " participants. Each participant can now visit their unique link to see who they're shopping for!"}
+                                {"Secret Santa assignments have been created for all " + assignmentStatus.assignmentCount + " members. Each member can now visit their unique link to see who they're shopping for!"}
                             </p>
                         </div>
                     ) : (
                         <div>
                             <p className={"text-forest-600 mb-4"}>
-                                {"Generate Secret Santa assignments when all participants have joined. You need at least 2 participants."}
+                                {"Generate Secret Santa assignments when all members have joined. You need at least 2 members."}
                             </p>
                             <button
                                 onClick={generateAssignments}
-                                disabled={participants.length < 2 || generating}
+                                disabled={members.length < 2 || generating}
                                 className={"cozy-button disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"}
                             >
                                 <Shuffle size={18} />
                                 {generating ? "Generating..." : "Generate Assignments 🎲"}
                             </button>
-                            {participants.length < 2 && (
+                            {members.length < 2 && (
                                 <p className={"text-sm text-forest-500 mt-2"}>
-                                    {"Need at least 2 participants to generate assignments"}
+                                    {"Need at least 2 members to generate assignments"}
                                 </p>
                             )}
                         </div>
@@ -232,10 +232,10 @@ const GroupDashboard = () => {
             <div className={"cozy-card bg-cream-50"}>
                 <h2 className={"text-xl font-bold text-forest-800 mb-3"}>{"Next Steps"}</h2>
                 <div className={"space-y-2 text-forest-600"}>
-                    <p>{"1. Share the group code with all participants"}</p>
+                    <p>{"1. Share the group code with all members"}</p>
                     <p>{"2. Wait for everyone to join and add their gift preferences"}</p>
                     {isCreator && <p>{"3. Generate Secret Santa assignments when ready"}</p>}
-                    <p>{isCreator ? "4." : "3."} Each participant will get a unique link to see their assignment</p>
+                    <p>{isCreator ? "4." : "3."} Each member will get a unique link to see their assignment</p>
                 </div>
             </div>
         </div>

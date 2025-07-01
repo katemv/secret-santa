@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useCallback, useEffect} from "react";
 
 
 const Snow = () => {
@@ -6,14 +6,14 @@ const Snow = () => {
         return Math.random() * (max - min) + min;
     };
 
-    const letItSnow = () => {
+    const letItSnow = useCallback(() => {
         const snowflakes = document.querySelectorAll(".snowflake-circle");
         snowflakes.forEach((snowflake) => {
             snowflake.setAttribute("cx", getRandom(1, 100) + "%");
             snowflake.setAttribute("cy", "-" + getRandom(1, 100));
             snowflake.setAttribute("r", getRandom(1, 3).toString());
         });
-    };
+    }, []);
 
     useEffect(() => {
         letItSnow();

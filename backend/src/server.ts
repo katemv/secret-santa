@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import groupRoutes from "./routes/groups";
-import participantRoutes from "./routes/participants";
+import memberRoutes from "./routes/members";
 import assignmentRoutes from "./routes/assignments";
 
 dotenv.config();
@@ -17,7 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/groups", groupRoutes);
-app.use("/api/participants", participantRoutes);
+app.use("/api/members", memberRoutes);
 app.use("/api/assignments", assignmentRoutes);
 
 // Health check

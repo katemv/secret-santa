@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Gift, Mail, User, MessageSquare, AlertCircle, CheckCircle } from "lucide-react";
+import { Button } from "../components/Button";
 
 const JoinGroup = () => {
     const navigate = useNavigate();
@@ -38,13 +39,13 @@ const JoinGroup = () => {
         setError("");
 
         try {
-            const response = await axios.post("/api/participants", {
+            const response = await axios.post("/api/members", {
                 ...formData,
                 groupCode,
             });
 
-            const participant = response.data;
-            navigate(`/reveal/${participant.uniqueId}`, {
+            const member = response.data;
+            navigate(`/reveal/${member.uniqueId}`, {
                 state: { justJoined: true }
             });
         } catch (err: any) {
@@ -101,13 +102,14 @@ const JoinGroup = () => {
                             </p>
                         </div>
 
-                        <button
+                        <Button
                             type={"submit"}
                             disabled={loading}
-                            className={"cozy-button w-full disabled:opacity-50 disabled:cursor-not-allowed"}
+                            className={"w-full"}
+                            size={"lg"}
                         >
                             {loading ? "Finding Group..." : "Find Group 🔍"}
-                        </button>
+                        </Button>
                     </div>
                 </form>
             )}
@@ -190,20 +192,22 @@ const JoinGroup = () => {
                             </div>
 
                             <div className={"flex gap-3"}>
-                                <button
+                                <Button
                                     type={"button"}
                                     onClick={() => setStep(1)}
-                                    className={"px-6 py-3 border border-forest-300 text-forest-600 hover:bg-forest-50 transition-colors"}
+                                    variant={"outline"}
+                                    size={"md"}
                                 >
                                     {"Back"}
-                                </button>
-                                <button
+                                </Button>
+                                <Button
                                     type={"submit"}
                                     disabled={loading}
-                                    className={"cozy-button flex-1 disabled:opacity-50 disabled:cursor-not-allowed"}
+                                    className={"flex-1"}
+                                    size={"md"}
                                 >
                                     {loading ? "Joining Group..." : "Join Group 🎁"}
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     </form>
