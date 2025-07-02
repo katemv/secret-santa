@@ -1,4 +1,4 @@
-import { cn } from "@/utils/tailwind.ts";
+import { cn } from "@/lib/utils";
 
 interface LogoProps {
     fontSize?: number

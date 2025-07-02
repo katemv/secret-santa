@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Gift, Mail, User, MessageSquare, AlertCircle, CheckCircle } from "lucide-react";
-import { Button } from "../components/Button";
+import { Button } from "@/components/ui";
 
 const JoinGroup = () => {
     const navigate = useNavigate();

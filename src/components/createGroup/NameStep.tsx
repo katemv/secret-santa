@@ -1,4 +1,7 @@
-import { User } from "lucide-react";
+import { ChangeEvent, FC } from "react";
+
+import santaClausAnimation from "../../assets/lottie/santa-claus.json";
+import { AnimatedIcon } from "../AnimatedIcon";
 import { Input } from "../Input";
 
 interface NameStepProps {
@@ -6,16 +9,17 @@ interface NameStepProps {
   setOwnerName: (name: string) => void
 }
 
-export const NameStep: React.FC<NameStepProps> = ({
-    ownerName,
-    setOwnerName
-}) => {
+export const NameStep: FC<NameStepProps> = ({ ownerName, setOwnerName }) => {
+    const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
+        setOwnerName(capitalizedValue);
+    };
+
     return (
         <div className={"p-8"}>
             <div className={"text-center mb-8"}>
-                <div className={"w-16 h-16 bg-christmas-100 rounded-full flex items-center justify-center mx-auto mb-4"}>
-                    <User className={"w-8 h-8 text-christmas-600"} />
-                </div>
+                <AnimatedIcon animationData={santaClausAnimation} />
                 <h2 className={"text-2xl font-bold text-christmas-600 font-fields mb-2"}>
                     {"What's your name?"}
                 </h2>
@@ -27,7 +31,7 @@ export const NameStep: React.FC<NameStepProps> = ({
             <div className={"max-w-md mx-auto"}>
                 <Input
                     value={ownerName}
-                    onChange={(e) => setOwnerName(e.target.value)}
+                    onChange={handleNameChange}
                     placeholder={"Enter your full name"}
                     centered={true}
                     inputSize={"large"}

@@ -3,3 +3,8 @@
 
 .env
 /backend/.env
+
+/dist/
+/backend/dist/
+
+/.idea/

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { cn } from "@/utils/tailwind";
-import { Button } from "./Button";
+import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 
 interface StepperProps {
   steps: React.ReactNode[]
@@ -49,6 +49,19 @@ export const Stepper: React.FC<StepperProps> = ({
         }
     };
 
+    useEffect(() => {
+        const handleKeyPress = (event: KeyboardEvent) => {
+            if (event.key === "Enter" && canGoNext) {
+                handleNext();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyPress);
+        return () => {
+            document.removeEventListener("keydown", handleKeyPress);
+        };
+    }, [canGoNext, handleNext]);
+
     return (
         <div className={"max-w-2xl mx-auto py-8"}>
             {/* Progress Bar */}
@@ -78,13 +91,11 @@ export const Stepper: React.FC<StepperProps> = ({
                 {/* Navigation Buttons */}
                 <div className={"flex justify-between items-center p-6 bg-gray-50 border-t border-gray-200"}>
                     <Button
-                        variant={"outline"}
+                        variant={"outlineRed"}
                         onClick={handleBack}
                         disabled={!canGoBack}
-                        className={cn(
-                            "flex items-center gap-2 border-christmas-600 text-christmas-600",
-                            !canGoBack && "invisible"
-                        )}
+                        size={"md"}
+                        className={cn(!canGoBack && "invisible")}
                     >
                         <ChevronLeft size={16} />
                         {backLabel}
@@ -94,6 +105,7 @@ export const Stepper: React.FC<StepperProps> = ({
                         variant={"red"}
                         onClick={handleNext}
                         disabled={!canGoNext}
+                        size={"md"}
                         className={"flex items-center gap-2"}
                     >
                         {nextLabel}

@@ -1,4 +1,4 @@
-import { Button } from "./Button";
+import { Button } from "@/components/ui";
 import { Link } from "react-router-dom";
 import Logo from "@/components/Logo.tsx";
 

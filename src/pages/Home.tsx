@@ -1,5 +1,5 @@
 import Snow from "../components/animations/Snow";
-import { Button } from "../components/Button";
+import { Button } from "@/components/ui";
 import Logo from "../components/Logo";
 
 const Home = () => {
@@ -16,7 +16,6 @@ const Home = () => {
                     
                     <div className='flex gap-6 justify-center'>
                         <Button 
-                            variant={"filled"}
                             size={"lg"}
                             to={"/create"}
                         >

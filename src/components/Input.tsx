@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "../utils/tailwind";
+import { cn } from "@/lib/utils";
 
 interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   value: string

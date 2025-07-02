@@ -1,18 +1,32 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
+import { BudgetStep, CelebrationDateStep, GroupNameStep, MembersStep, NameStep } from "@/components/createGroup";
+import usePersistedState from "../hooks/usePersistedState";
 import { Stepper } from "../components/Stepper";
-import { NameStep, MembersStep } from "../components/createGroup";
 
 const CreateGroup = () => {
     const navigate = useNavigate();
-    const [currentStep, setCurrentStep] = useState(0);
+    
+    const [currentStep, setCurrentStep, clearCurrentStep] = usePersistedState("createGroup_currentStep", 0);
+    const [ownerName, setOwnerName, clearOwnerName] = usePersistedState("createGroup_ownerName", "");
+    const [memberNames, setMemberNames, clearMemberNames] = usePersistedState<string[]>("createGroup_memberNames", ["", ""]);
+    const [groupName, setGroupName, clearGroupName] = usePersistedState("createGroup_groupName", `Christmas ${new Date().getFullYear()}`);
+    const [celebrationDate, setCelebrationDate, clearCelebrationDate] = usePersistedState("createGroup_celebrationDate", `${new Date().getFullYear()}-12-25`);
+    const [budget, setBudget, clearBudget] = usePersistedState("createGroup_budget", 0);
+    
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    
-    // Form data state
-    const [ownerName, setOwnerName] = useState("");
-    const [memberNames, setMemberNames] = useState<string[]>(["", "", "", "", ""]);
+
+    const clearAllPersistedData = () => {
+        clearCurrentStep();
+        clearOwnerName();
+        clearMemberNames();
+        clearGroupName();
+        clearCelebrationDate();
+        clearBudget();
+    };
 
     const validateStep = (step: number) => {
         switch (step) {
@@ -21,27 +35,15 @@ const CreateGroup = () => {
         case 1:
             const filledMembers = memberNames.filter(name => name.trim().length > 0);
             return filledMembers.length >= 2;
+        case 2:
+            return groupName.trim().length > 0;
+        case 3:
+            return celebrationDate.trim().length > 0;
+        case 4:
+            return budget > 0;
         default:
             return false;
         }
-    };
-
-    const handleStepChange = (step: number) => {
-        setCurrentStep(step);
-    };
-
-    const addMemberField = () => {
-        setMemberNames(prev => [...prev, ""]);
-    };
-
-    const removeMemberField = (index: number) => {
-        setMemberNames(prev => prev.filter((_, i) => i !== index));
-    };
-
-    const updateMemberName = (index: number, value: string) => {
-        setMemberNames(prev => 
-            prev.map((name, i) => i === index ? value : name)
-        );
     };
 
     const handleSubmit = async () => {
@@ -52,28 +54,28 @@ const CreateGroup = () => {
             const filledMembers = memberNames.filter(name => name.trim().length > 0);
             
             const response = await axios.post("/api/groups", {
-                name: `${ownerName}'s Secret Santa`,
+                name: groupName.trim(),
                 description: `A festive gift exchange organized by ${ownerName}`,
-                exchangeDate: "2024-12-25", // Default Christmas date
-                budget: 25, // Default budget
+                exchangeDate: celebrationDate,
+                budget: budget,
                 ownerName: ownerName.trim(),
                 ownerEmail: "temp@example.com", // Temporary - will be handled by backend later
                 members: filledMembers.map(name => name.trim()),
             });
 
             const group = response.data;
+            
+            clearAllPersistedData();
+            
             navigate(`/group/${group._id}`, { 
                 state: { groupCode: group.code, isCreator: true } 
             });
-        // eslint-disable-next-line
         } catch (err: any) {
             setError(err.response?.data?.message || "Failed to create group");
         } finally {
             setLoading(false);
         }
     };
-
-
 
     return (
         <div className={"min-h-screen bg-gray-50"}>
@@ -102,13 +104,31 @@ const CreateGroup = () => {
                     />,
                     <MembersStep 
                         memberNames={memberNames}
-                        updateMemberName={updateMemberName}
-                        addMemberField={addMemberField}
-                        removeMemberField={removeMemberField}
+                        organizerName={ownerName}
+                        addMemberField={() => setMemberNames(prev => [...prev, ""])}
+                        removeMemberField={(index) => setMemberNames(prev => prev.filter((_, i) => i !== index))}
+                        updateMemberName={(index, value) => {
+                            setMemberNames(prev =>
+                                prev.map((name, i) => i === index ? value : name)
+                            );
+                        }}
+                    />,
+                    <GroupNameStep 
+                        groupName={groupName}
+                        setGroupName={setGroupName}
+                        organizerName={ownerName}
+                    />,
+                    <CelebrationDateStep 
+                        selectedDate={celebrationDate}
+                        setSelectedDate={setCelebrationDate}
+                    />,
+                    <BudgetStep 
+                        budget={budget}
+                        setBudget={setBudget}
                     />
                 ]}
                 currentStep={currentStep}
-                onStepChange={handleStepChange}
+                onStepChange={setCurrentStep}
                 onComplete={handleSubmit}
                 validateStep={validateStep}
                 loading={loading}
