@@ -16,7 +16,7 @@ router.post("/", async (req: Request, res: Response) => {
             return res.status(404).json({ message: "Group not found" });
         }
 
-        // Check if member already exists in this group
+        // Check if member already exists in this group (by email)
         const existingMember = await Member.findOne({
             email: email.toLowerCase(),
             groupId: group._id,
@@ -24,6 +24,16 @@ router.post("/", async (req: Request, res: Response) => {
 
         if (existingMember) {
             return res.status(400).json({ message: "Member already joined this group" });
+        }
+
+        // Check if name already exists in this group
+        const existingName = await Member.findOne({
+            name: { $regex: new RegExp(`^${name.trim()}$`, "i") },
+            groupId: group._id,
+        });
+
+        if (existingName) {
+            return res.status(400).json({ message: "A member with this name already exists in the group" });
         }
 
         // Generate unique ID for the member

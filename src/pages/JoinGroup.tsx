@@ -66,14 +66,14 @@ const JoinGroup = () => {
         <div className={"max-w-2xl mx-auto"}>
             <div className={"text-center mb-8"}>
                 <div className={"text-4xl mb-4"}>🎅</div>
-                <h1 className={"text-3xl font-bold text-forest-800 mb-2"}>{"Join a Secret Santa Group"}</h1>
-                <p className={"text-forest-600"}>
+                <h1 className={"text-3xl font-bold text-white mb-2"}>{"Join a Secret Santa Group"}</h1>
+                <p className={"text-white opacity-90"}>
                     {"Enter your group code and details to join the gift exchange fun!"}
                 </p>
             </div>
 
             {step === 1 && (
-                <form onSubmit={handleCodeSubmit} className={"cozy-card"}>
+                <form onSubmit={handleCodeSubmit} className={"cozy-card bg-white/95 border-christmas-200"}>
                     {error && (
                         <div className={"bg-christmas-100 border border-christmas-300 text-christmas-700 px-4 py-3 mb-6 flex items-center gap-2"}>
                             <AlertCircle size={20} />
@@ -83,7 +83,7 @@ const JoinGroup = () => {
 
                     <div className={"space-y-6"}>
                         <div>
-                            <label htmlFor={"groupCode"} className={"block text-forest-700 font-medium mb-2"}>
+                            <label htmlFor={"groupCode"} className={"block text-christmas-700 font-medium mb-2"}>
                                 <Gift size={18} className={"inline mr-2"} />
                                 {"Group Code"}
                             </label>
@@ -97,7 +97,7 @@ const JoinGroup = () => {
                                 className={"cozy-input text-center text-lg font-mono tracking-wider"}
                                 maxLength={8}
                             />
-                            <p className={"text-forest-500 text-sm mt-2"}>
+                            <p className={"text-christmas-500 text-sm mt-2"}>
                                 {"Ask the group creator for the invitation code"}
                             </p>
                         </div>
@@ -117,21 +117,21 @@ const JoinGroup = () => {
             {step === 2 && group && (
                 <div className={"space-y-6"}>
                     {/* Group Info */}
-                    <div className={"cozy-card bg-forest-50"}>
-                        <div className={"flex items-center gap-2 text-forest-700 mb-2"}>
+                    <div className={"cozy-card bg-white/95 border-christmas-200"}>
+                        <div className={"flex items-center gap-2 text-christmas-700 mb-2"}>
                             <CheckCircle size={20} />
                             <span className={"font-medium"}>{"Group Found!"}</span>
                         </div>
-                        <h2 className={"text-xl font-bold text-forest-800 mb-2"}>{group.name}</h2>
-                        <p className={"text-forest-600 mb-3"}>{group.description}</p>
-                        <div className={"flex flex-wrap gap-4 text-sm text-forest-600"}>
+                        <h2 className={"text-xl font-bold text-christmas-800 mb-2"}>{group.name}</h2>
+                        <p className={"text-christmas-600 mb-3"}>{group.description}</p>
+                        <div className={"flex flex-wrap gap-4 text-sm text-christmas-600"}>
                             <span>{"📅 Exchange: " + new Date(group.exchangeDate).toLocaleDateString()}</span>
                             <span>{"💰 Budget: $" + group.budget}</span>
                         </div>
                     </div>
 
                     {/* Join Form */}
-                    <form onSubmit={handleJoinSubmit} className={"cozy-card"}>
+                    <form onSubmit={handleJoinSubmit} className={"cozy-card bg-white/95 border-christmas-200"}>
                         {error && (
                             <div className={"bg-christmas-100 border border-christmas-300 text-christmas-700 px-4 py-3 mb-6 flex items-center gap-2"}>
                                 <AlertCircle size={20} />
@@ -141,7 +141,7 @@ const JoinGroup = () => {
 
                         <div className={"space-y-6"}>
                             <div>
-                                <label htmlFor={"name"} className={"block text-forest-700 font-medium mb-2"}>
+                                <label htmlFor={"name"} className={"block text-christmas-700 font-medium mb-2"}>
                                     <User size={18} className={"inline mr-2"} />
                                     {"Your Name"}
                                 </label>
@@ -158,7 +158,7 @@ const JoinGroup = () => {
                             </div>
 
                             <div>
-                                <label htmlFor={"email"} className={"block text-forest-700 font-medium mb-2"}>
+                                <label htmlFor={"email"} className={"block text-christmas-700 font-medium mb-2"}>
                                     <Mail size={18} className={"inline mr-2"} />
                                     {"Email Address"}
                                 </label>
@@ -175,7 +175,7 @@ const JoinGroup = () => {
                             </div>
 
                             <div>
-                                <label htmlFor={"giftPreferences"} className={"block text-forest-700 font-medium mb-2"}>
+                                <label htmlFor={"giftPreferences"} className={"block text-christmas-700 font-medium mb-2"}>
                                     <MessageSquare size={18} className={"inline mr-2"} />
                                     {"Gift Preferences"}
                                 </label>

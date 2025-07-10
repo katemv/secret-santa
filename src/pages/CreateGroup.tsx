@@ -32,9 +32,20 @@ const CreateGroup = () => {
         switch (step) {
         case 0:
             return ownerName.trim().length > 0;
-        case 1:
+        case 1: {
             const filledMembers = memberNames.filter(name => name.trim().length > 0);
-            return filledMembers.length >= 2;
+
+            if (filledMembers.length < 2) {
+                return false;
+            }
+
+            const allNames = [ownerName, ...filledMembers]
+                .map(name => name.trim().toLowerCase())
+                .filter(name => name.length > 0);
+
+            const uniqueNames = [...new Set(allNames)];
+            return uniqueNames.length === allNames.length;
+        }
         case 2:
             return groupName.trim().length > 0;
         case 3:

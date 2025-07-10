@@ -100,7 +100,7 @@ const GroupDashboard = () => {
             <div className={"flex items-center justify-center min-h-64"}>
                 <div className={"text-center"}>
                     <div className={"text-4xl mb-4"}>🎄</div>
-                    <p className={"text-forest-600"}>{"Loading group details..."}</p>
+                    <p className={"text-white"}>{"Loading group details..."}</p>
                 </div>
             </div>
         );
@@ -110,8 +110,8 @@ const GroupDashboard = () => {
         return (
             <div className={"text-center"}>
                 <div className={"text-4xl mb-4"}>❌</div>
-                <h1 className={"text-2xl font-bold text-forest-800 mb-2"}>{"Group Not Found"}</h1>
-                <p className={"text-forest-600"}>{"This group doesn't exist or has been deleted."}</p>
+                <h1 className={"text-2xl font-bold text-white mb-2"}>{"Group Not Found"}</h1>
+                <p className={"text-white opacity-80"}>{"This group doesn't exist or has been deleted."}</p>
             </div>
         );
     }
@@ -119,21 +119,21 @@ const GroupDashboard = () => {
     return (
         <div className={"max-w-4xl mx-auto space-y-8"}>
             {/* Group Header */}
-            <div className={"cozy-card"}>
+            <div className={"cozy-card bg-white/95 border-christmas-200"}>
                 <div className={"flex items-start justify-between mb-4"}>
                     <div>
-                        <h1 className={"text-3xl font-bold text-forest-800 mb-2"}>{group.name}</h1>
-                        <p className={"text-forest-600 mb-4"}>{group.description}</p>
+                        <h1 className={"text-3xl font-bold text-christmas-800 mb-2"}>{group.name}</h1>
+                        <p className={"text-christmas-600 mb-4"}>{group.description}</p>
                     </div>
                     <div className={"text-right"}>
-                        <div className={"text-sm text-forest-500"}>{"Group Code"}</div>
+                        <div className={"text-sm text-christmas-500"}>{"Group Code"}</div>
                         <div className={"flex items-center gap-2"}>
                             <code className={"text-xl font-mono font-bold text-christmas-600 bg-christmas-50 px-3 py-1 rounded"}>
                                 {group.code}
                             </code>
                             <button
                                 onClick={copyGroupCode}
-                                className={"p-2 text-forest-600 hover:text-forest-800 transition-colors"}
+                                className={"p-2 text-christmas-600 hover:text-christmas-800 transition-colors"}
                                 title={"Copy group code"}
                             >
                                 {copying ? <CheckCircle size={20} className={"text-green-600"} /> : <Copy size={20} />}
@@ -143,15 +143,15 @@ const GroupDashboard = () => {
                 </div>
 
                 <div className={"grid md:grid-cols-3 gap-4"}>
-                    <div className={"flex items-center gap-2 text-forest-600"}>
+                    <div className={"flex items-center gap-2 text-christmas-600"}>
                         <Calendar size={18} />
                         <span>{"Exchange: " + new Date(group.exchangeDate).toLocaleDateString()}</span>
                     </div>
-                    <div className={"flex items-center gap-2 text-forest-600"}>
+                    <div className={"flex items-center gap-2 text-christmas-600"}>
                         <DollarSign size={18} />
                         <span>{"Budget: $" + group.budget}</span>
                     </div>
-                    <div className={"flex items-center gap-2 text-forest-600"}>
+                    <div className={"flex items-center gap-2 text-christmas-600"}>
                         <Users size={18} />
                         <span>{members.length + " member" + (members.length !== 1 ? "s" : "")}</span>
                     </div>
@@ -159,22 +159,22 @@ const GroupDashboard = () => {
             </div>
 
             {/* Members */}
-            <div className={"cozy-card"}>
-                <h2 className={"text-2xl font-bold text-forest-800 mb-4"}>{"Members"}</h2>
+            <div className={"cozy-card bg-white/95 border-christmas-200"}>
+                <h2 className={"text-2xl font-bold text-christmas-800 mb-4"}>{"Members"}</h2>
                 {members.length === 0 ? (
                     <div className={"text-center py-8"}>
                         <div className={"text-4xl mb-4"}>👥</div>
-                        <p className={"text-forest-600"}>{"No members yet. Share the group code to get started!"}</p>
+                        <p className={"text-christmas-600"}>{"No members yet. Share the group code to get started!"}</p>
                     </div>
                 ) : (
                     <div className={"grid gap-3"}>
                         {members.map((member) => (
-                            <div key={member._id} className={"flex items-center justify-between p-3 bg-forest-50 rounded-lg"}>
+                            <div key={member._id} className={"flex items-center justify-between p-3 bg-christmas-50 rounded-lg"}>
                                 <div>
-                                    <div className={"font-medium text-forest-800"}>{member.name}</div>
-                                    <div className={"text-sm text-forest-600"}>{member.email}</div>
+                                    <div className={"font-medium text-christmas-800"}>{member.name}</div>
+                                    <div className={"text-sm text-christmas-600"}>{member.email}</div>
                                 </div>
-                                <div className={"text-xs text-forest-500"}>
+                                <div className={"text-xs text-christmas-500"}>
                                     {"Joined " + new Date(member.createdAt).toLocaleDateString()}
                                 </div>
                             </div>
@@ -185,8 +185,8 @@ const GroupDashboard = () => {
 
             {/* Assignment Management */}
             {isCreator && (
-                <div className={"cozy-card"}>
-                    <h2 className={"text-2xl font-bold text-forest-800 mb-4"}>{"Secret Santa Assignments"}</h2>
+                <div className={"cozy-card bg-white/95 border-christmas-200"}>
+                    <h2 className={"text-2xl font-bold text-christmas-800 mb-4"}>{"Secret Santa Assignments"}</h2>
           
                     {error && (
                         <div className={"bg-christmas-100 border border-christmas-300 text-christmas-700 px-4 py-3 rounded-lg mb-4 flex items-center gap-2"}>
@@ -207,7 +207,7 @@ const GroupDashboard = () => {
                         </div>
                     ) : (
                         <div>
-                            <p className={"text-forest-600 mb-4"}>
+                            <p className={"text-christmas-600 mb-4"}>
                                 {"Generate Secret Santa assignments when all members have joined. You need at least 2 members."}
                             </p>
                             <button
@@ -219,7 +219,7 @@ const GroupDashboard = () => {
                                 {generating ? "Generating..." : "Generate Assignments 🎲"}
                             </button>
                             {members.length < 2 && (
-                                <p className={"text-sm text-forest-500 mt-2"}>
+                                <p className={"text-sm text-christmas-500 mt-2"}>
                                     {"Need at least 2 members to generate assignments"}
                                 </p>
                             )}
@@ -229,9 +229,9 @@ const GroupDashboard = () => {
             )}
 
             {/* Instructions */}
-            <div className={"cozy-card bg-cream-50"}>
-                <h2 className={"text-xl font-bold text-forest-800 mb-3"}>{"Next Steps"}</h2>
-                <div className={"space-y-2 text-forest-600"}>
+            <div className={"cozy-card bg-white/90 border-christmas-200"}>
+                <h2 className={"text-xl font-bold text-christmas-800 mb-3"}>{"Next Steps"}</h2>
+                <div className={"space-y-2 text-christmas-600"}>
                     <p>{"1. Share the group code with all members"}</p>
                     <p>{"2. Wait for everyone to join and add their gift preferences"}</p>
                     {isCreator && <p>{"3. Generate Secret Santa assignments when ready"}</p>}

@@ -24,6 +24,23 @@ export const MembersStep: FC<MembersStepProps> = ({
 }) => {
     const filledCount = memberNames.filter(name => name.trim().length > 0).length;
 
+    const getDuplicateNames = () => {
+        const allNames = [organizerName, ...memberNames]
+            .map(name => name.trim().toLowerCase())
+            .filter(name => name.length > 0);
+        
+        const duplicates = allNames.filter((name, index) => allNames.indexOf(name) !== index);
+        return [...new Set(duplicates)];
+    };
+
+    const duplicateNames = getDuplicateNames();
+    const hasDuplicates = duplicateNames.length > 0;
+
+    const isNameDuplicate = (name: string) => {
+        const trimmedName = name.trim().toLowerCase();
+        return duplicateNames.includes(trimmedName);
+    };
+
     const handleMemberNameChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
@@ -52,9 +69,16 @@ export const MembersStep: FC<MembersStepProps> = ({
                         onChange={() => {}}
                         disabled={true}
                         placeholder={"Organizer name"}
-                        className={"bg-gray-50"}
+                        className={cn("bg-gray-50", {
+                            "border-red-300 bg-red-50": isNameDuplicate(organizerName)
+                        })}
                         fullWidth={true}
                     />
+                    {isNameDuplicate(organizerName) && (
+                        <p className={"text-red-500 text-sm mt-1"}>
+                            {"This name is already used by another member"}
+                        </p>
+                    )}
                 </div>
 
                 {memberNames.map((name, index) => (
@@ -63,7 +87,12 @@ export const MembersStep: FC<MembersStepProps> = ({
                             value={name}
                             onChange={(e) => handleMemberNameChange(index, e)}
                             placeholder={`Member ${index + 1} name`}
-                            className={index >= 2 ? "pr-10" : ""}
+                            className={cn(
+                                index >= 2 ? "pr-10" : "",
+                                {
+                                    "border-red-300 bg-red-50": name.trim().length > 0 && isNameDuplicate(name)
+                                }
+                            )}
                             fullWidth={true}
                         />
                         {index >= 2 && (
@@ -75,6 +104,11 @@ export const MembersStep: FC<MembersStepProps> = ({
                             >
                                 <X size={16} />
                             </button>
+                        )}
+                        {name.trim().length > 0 && isNameDuplicate(name) && (
+                            <p className={"text-red-500 text-sm mt-1"}>
+                                {"This name is already used by another member"}
+                            </p>
                         )}
                     </div>
                 ))}
@@ -94,6 +128,14 @@ export const MembersStep: FC<MembersStepProps> = ({
                 <div className={"mt-6 text-center"}>
                     <p className={"text-sm text-gray-500"}>
                         {"You need at least 2 members to create a Secret Santa group"}
+                    </p>
+                </div>
+            )}
+
+            {hasDuplicates && (
+                <div className={"mt-6 text-center"}>
+                    <p className={"text-sm text-red-500"}>
+                        {"All names must be unique. Please check for duplicates."}
                     </p>
                 </div>
             )}
